@@ -1660,5 +1660,5 @@ ON CONFLICT DO NOTHING;
 
 
 
-SELECT COUNT(*) FROM products;
+select*FROM products;
 
