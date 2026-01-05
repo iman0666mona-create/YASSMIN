@@ -35,14 +35,18 @@ router.post('/', (req, res) => {
     created_at ? new Date(created_at) : new Date(), status || 'pending'
   ];
 
-  db.query(q, params, (err, result) => {
+ db.query(
+  `INSERT INTO products (name, price, description, category_id, media, colors, sizes)
+   VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+  [name, price, description, category_id, media, colors, sizes],
+  (err, result) => {
     if (err) {
-      console.error('POST /orders error', err);
-      return res.status(500).json({ error: 'Server error' });
+      console.log('ERROR POST PRODUCT:', err);
+      return res.status(500).json(err);
     }
-    const id = result.rows && result.rows[0] ? result.rows[0].id : null;
-    res.json({ id, ...req.body });
-  });
+    res.json({ message: 'Product added', id: result[0]?.id });
+  }
+);
 });
 
 // PATCH /orders/:id - partial update (e.g. status)
