@@ -9,21 +9,18 @@ router.get('/', (req, res) => {
              FROM products
              ORDER BY id DESC`;
   db.query(q, (err, rows) => {
-    if (err) {
-      console.error('GET /products error', err); // server terminal log
-      return res.status(500).json({ error: 'Server error' });
-    }
-    // normalize fields if needed (optional)
-    const out = (rows || []).map(r => {
-      try {
-        if (typeof r.media === 'string') {
-          // keep as-is; client handles JSON or CSV
-        }
-      } catch (e) {}
-      return r;
-    });
-    res.json(out);
-  });
+  if (err) {
+    console.error('GET /products error', err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+
+  console.log('PRODUCTS FROM DB:', rows); // 👈 هذا هو المهم
+
+  const out = (rows || []).map(r => r);
+
+  res.json(out);
+});
+
 });
 
 // GET /products/:id (public)
