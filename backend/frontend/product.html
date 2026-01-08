@@ -203,10 +203,10 @@
 
 
 <script>
-const API_URL = 'http://localhost:5003/api/products';
-const UPLOADS_BASE = 'http://localhost:5003/uploads';
-const LOC_API = 'http://localhost:5003';
-const ORDERS_API = 'http://localhost:5003/orders';
+const API_URL = `${window.location.origin}/api/products`;
+const UPLOADS_BASE = `${window.location.origin}/uploads`;
+const LOC_API = `${window.location.origin}`;
+const ORDERS_API = `${window.location.origin}/orders`;
 
 
 const params = new URLSearchParams(window.location.search);

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,55 +11,45 @@
 
 <!-- ================= HEADER ================= -->
 <header>
-
   <div class="container header-container">
-  <div class="logo-text">ICONIC</div>
+    <div class="logo-text">ICONIC</div>
 
-  <nav>
-    <ul class="nav-list">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="products.html">Products</a></li>
-      <li><a href="index.html#about">About</a></li>
-      <li class="contact-item">
+    <nav>
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li class="contact-item">
+          <input type="checkbox" id="contact-toggle">
+          <label for="contact-toggle" class="contact-label">Contact</label>
+          <div class="contact-dropdown">
+            <a href="https://www.instagram.com/iconicbyyass?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com/iconicbyyass" target="_blank">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://tiktok.com/@iconic.ys" target="_blank">
+              <i class="fab fa-tiktok"></i>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </nav>
 
-    <input type="checkbox" id="contact-toggle">
+    <div class="menu-toggle">☰</div>
 
-    <label for="contact-toggle" class="contact-label">
-        Contact
-    </label>
+    <div class="icons"></div>
 
-    <div class="contact-dropdown">
-        <a href="https://www.instagram.com/iconicbyyass?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://www.facebook.com/iconicbyyass" target="_blank">
-            <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://tiktok.com/@iconic.ys" target="_blank">
-            <i class="fab fa-tiktok"></i>
-        </a>
+    <!-- Search -->
+    <button class="icon-btn search-btn">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+
+    <div class="search-container">
+      <input type="text" placeholder="Search products..." id="searchInput"/>
     </div>
-
-</li>
-    </ul>
-  </nav>
-  <div class="menu-toggle">☰</div>
-
-  <div class="icons">
-</div>
-  <!-- Search -->
-  <button class="icon-btn search-btn">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-
-  <div class="search-container">
-    <input type="text" placeholder="Search products..."  id="searchInput"/>
   </div>
-
-
-</div>
-
-
 </header>
 
 <!-- ================= SHOP BANNER ================= -->
@@ -71,119 +60,91 @@
 
 <!-- ================= SHOP ================= -->
 <section class="shop">
-
   <!-- FILTER BAR -->
   <div class="shop-topbar">
-  <div class="nav-filters">
+    <div class="nav-filters">
+      <div class="filter-item label-only"><p>Filter by</p></div>
 
-    <div class="filter-item label-only">
-      <p>Filter by</p>
-    </div>
-
-    <div class="filter-item has-dropdown">
+      <div class="filter-item has-dropdown">
         <button class="filter-btn">Categories <i class="arrow"></i></button>
-   
-      <div class="filter-dropdown">
-        <a href="#">Dresses</a>
-        <a href="#">Tops</a>
-        <a href="#">Outerwear</a>
-        <a href="#">Accessories</a>
+        <div class="filter-dropdown">
+          <a href="#">Dresses</a>
+          <a href="#">Tops</a>
+          <a href="#">Outerwear</a>
+          <a href="#">Accessories</a>
+        </div>
       </div>
-    </div>
 
-    <div class="filter-item has-dropdown">
-      <button class="filter-btn">Color <i class="arrow"></i></button>
-
-      <div class="filter-dropdown colors">
-        <a><span class="dot blue"></span> Blue</a>
-        <a><span class="dot grey"></span> Grey</a>
-        <a><span class="dot red"></span> Red</a>
-        <a><span class="dot yellow"></span> Yellow</a>
-        <a><span class="dot black"></span> Black</a>
-        <a><span class="dot pink"></span> Pink</a>
-        <a><span class="dot white"></span> White</a>
-        <a><span class="dot peach"></span> Peach</a>
-        <a><span class="dot lavender"></span> Lavender</a>
-        <a><span class="dot green"></span> Green</a>
-        
-
+      <div class="filter-item has-dropdown">
+        <button class="filter-btn">Color <i class="arrow"></i></button>
+        <div class="filter-dropdown colors">
+          <a><span class="dot blue"></span> Blue</a>
+          <a><span class="dot grey"></span> Grey</a>
+          <a><span class="dot red"></span> Red</a>
+          <a><span class="dot yellow"></span> Yellow</a>
+          <a><span class="dot black"></span> Black</a>
+          <a><span class="dot pink"></span> Pink</a>
+          <a><span class="dot white"></span> White</a>
+          <a><span class="dot peach"></span> Peach</a>
+          <a><span class="dot lavender"></span> Lavender</a>
+          <a><span class="dot green"></span> Green</a>
+        </div>
       </div>
-    </div>
 
-    <div class="filter-item has-dropdown">
+      <div class="filter-item has-dropdown">
         <button class="filter-btn">Size <i class="arrow"></i></button>
-      
-      <div class="filter-dropdown size">
-        <a>S</a>
-        <a>M</a>
-        <a>L</a>
-        <a>XL</a>
+        <div class="filter-dropdown size">
+          <a>S</a><a>M</a><a>L</a><a>XL</a>
+        </div>
+      </div>
+
+      <div class="filter-item has-dropdown">
+        <button class="filter-btn">Brand <i class="arrow"></i></button>
+        <div class="filter-dropdown"><a>ICONIC</a></div>
+      </div>
+
+      <div class="filter-item has-dropdown">
+        <button class="filter-btn">Price <i class="arrow"></i></button>
+        <div class="filter-dropdown"><a>Low to High</a><a>High to Low</a></div>
+      </div>
+
+      <div class="filter-item">
+        <button id="resetFiltersBtn">Reset Filters</button>
       </div>
     </div>
-
-    <div class="filter-item has-dropdown">
-      <button class="filter-btn">Brand <i class="arrow"></i></button>
-      <div class="filter-dropdown">
-        <a>ICONIC</a>
-      </div>
-    </div>
-
-    <div class="filter-item has-dropdown">
-      <button class="filter-btn">Price <i class="arrow"></i></button>
-      <div class="filter-dropdown">
-        <a>Low to High</a>
-        <a>High to Low</a>
-      </div>
-    </div>
-
-    <div class="filter-item">
-      <button id="resetFiltersBtn">Reset Filters</button>
-    </div>
-
-
   </div>
-</div>
 
   <!-- PRODUCTS GRID (JS يخدم هنا) -->
-  <div class="products" id="productsContainer">
-    <!-- المنتجات يطلعهم JS -->
-  </div>
+  <div class="products" id="productsContainer"></div>
 
   <!-- LOAD MORE -->
   <div class="load-more">
     <button id="loadMoreBtn">LOAD MORE</button>
   </div>
-
- 
 </section>
 
 <!-- ================= FOOTER ================= -->
 <footer>
-
   <div class="footer-top">
-
     <div>
       <h4>Brand</h4>
       <ul>
-        <li>Online store </li>
+        <li>Online store</li>
         <li><a href="index.html">Home</a></li>
         <li><a href="index.html#about">About Us</a></li>
         <li><a href="https://www.instagram.com/lionnetteee">Owner</a></li>
       </ul>
     </div>
- 
 
-     <div>
+    <div>
       <h4>Developer</h4>
       <p>Developed by <strong>Lameche.I</strong></p>
       <a href="https://github.com/ghezlan-dev" class="footer-link">Developer Profile</a><br>
       <a href="lamghezlandev@yahoo.com" class="footer-link">Email</a><br>
       <a href="https://www.instagram.com/leonn_ette" class="footer-link">Instagram</a><br>
       <a href="https://tiktok.com/@leonette.ima" class="footer-link">TikTok</a>
-
     </div>
 
- 
     <div>
       <h4>Follow us</h4>
       <ul>
@@ -192,27 +153,39 @@
         <li><a href="https://tiktok.com/@iconic.ys">Tiktok</a></li>
       </ul>
     </div>
-
   </div>
 
   <div class="footer-bottom">
     <span>ICONIC © 2026 January. All rights reserved</span>
     <span>EN | DZ</span>
   </div>
-
 </footer>
 
-<!-- ================= JS (نفس الكود تاعك) ================= -->
+<!-- ================= JS ================= -->
 <script>
-const API_URL = 'http://localhost:5003/api/products';
+/*
+  BACKEND_ORIGIN logic:
+  - Local dev: use localhost:5003
+  - Production: use same origin (window.location.origin) or override with window.__BACKEND_ORIGIN__
+*/
+const BACKEND_ORIGIN = window.__BACKEND_ORIGIN__ ||
+  (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+    ? 'http://localhost:5003'
+    : window.location.origin || 'https://yassmin-4.onrender.com');
+
+const API_URL = `${BACKEND_ORIGIN}/api/products`;
+const UPLOADS_BASE = `${BACKEND_ORIGIN}/uploads`;
+
 let productsData = [];
 let shownCount = 8;
 
 function safeParseArray(value){
   if (Array.isArray(value)) return value;
   if (typeof value === 'string') {
-    try { return JSON.parse(value); } catch(e){
-      return value.split(',').map(s => s.trim()).filter(Boolean);
+    const s = value.trim();
+    if (!s) return [];
+    try { return JSON.parse(s); } catch(e){
+      return s.split(',').map(x=>x.trim()).filter(Boolean);
     }
   }
   return [];
@@ -220,25 +193,32 @@ function safeParseArray(value){
 
 async function loadProducts() {
   try {
-    const res = await fetch(API_URL);
-    if(!res.ok) {
-     
-      
+    const res = await fetch(API_URL, { credentials: 'omit' });
+    if(!res.ok){
+      console.error('Products API returned status', res.status);
       productsData = [];
       renderProducts();
       return;
     }
-    const raw = await res.json();
 
-    // Normalize fields so rest of code can assume arrays
-    productsData = (Array.isArray(raw) ? raw : []).map(p => {
-      return {
-        ...p,
-        media: safeParseArray(p.media),
-        colors: safeParseArray(p.colors),
-        sizes: safeParseArray(p.sizes)
-      };
-    });
+    // try parse JSON safely
+    let raw;
+    try {
+      raw = await res.json();
+    } catch (e) {
+      const text = await res.text().catch(()=>'<no body>');
+      console.error('Invalid JSON from products API:', e, 'raw:', text);
+      productsData = [];
+      renderProducts();
+      return;
+    }
+
+    productsData = (Array.isArray(raw) ? raw : []).map(p => ({
+      ...p,
+      media: safeParseArray(p.media),
+      colors: safeParseArray(p.colors),
+      sizes: safeParseArray(p.sizes)
+    }));
 
     renderProducts();
   } catch(err) {
@@ -253,7 +233,6 @@ function renderProducts(data = productsData) {
   container.innerHTML = '';
 
   data.slice(0, shownCount).forEach(p => {
-    // ألوان
     let colorsHTML = '';
     if(Array.isArray(p.colors)){
       const uniqueColors = [...new Set(p.colors.map(c => String(c).trim()).filter(Boolean))];
@@ -262,8 +241,8 @@ function renderProducts(data = productsData) {
       });
     }
 
-    const mediaFirst = (Array.isArray(p.media) && p.media.length) ? encodeURIComponent(p.media[0]) : '';
-    const mediaHTML = mediaFirst ? `<img src="http://localhost:5003/uploads/${mediaFirst}">` : '';
+    const mediaFirst = (Array.isArray(p.media) && p.media.length) ? String(p.media[0]).trim() : '';
+    const mediaHTML = mediaFirst ? `<img src="${UPLOADS_BASE}/${encodeURIComponent(mediaFirst)}" alt="">` : `<img src="assets/placeholder.png" alt="">`;
 
     container.innerHTML += `
       <a href="product.html?id=${p.id}" class="product-card">
@@ -276,32 +255,30 @@ function renderProducts(data = productsData) {
   });
 }
 
-// Search & filters (use normalized arrays)
+// Load more
 document.getElementById('loadMoreBtn').onclick = () => {
   shownCount += 8;
   renderProducts();
 };
 
+// Search
 const searchInput = document.getElementById('searchInput');
 searchInput.addEventListener('input', () => {
-  const query = searchInput.value.toLowerCase();
-  const filtered = productsData.filter(p => (p.name||'').toLowerCase().includes(query));
+  const q = searchInput.value.toLowerCase();
+  const filtered = productsData.filter(p => (p.name||'').toLowerCase().includes(q));
   renderProducts(filtered);
 });
 
-let activeFilters = {
-  category: null,
-  color: null,
-  size: null,
-  price: null
-};
+// Filters
+let activeFilters = { category: null, color: null, size: null, price: null };
 
 document.querySelectorAll('.filter-dropdown a').forEach(link => {
-  link.addEventListener('click', e => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
     const parent = link.closest('.filter-item');
-    const btnText = parent.querySelector('.filter-btn').textContent;
+    const btnText = parent.querySelector('.filter-btn') ? parent.querySelector('.filter-btn').textContent : '';
 
-    if(btnText.includes('Categories')) activeFilters.category = link.textContent;
+    if(btnText.includes('Categories')) activeFilters.category = link.textContent.trim();
     if(btnText.includes('Color')) activeFilters.color = link.textContent.trim();
     if(btnText.includes('Size')) activeFilters.size = link.textContent.trim();
     if(btnText.includes('Price')) activeFilters.price = link.textContent.includes('Low') ? 'asc' : 'desc';
@@ -314,7 +291,6 @@ function applyFilters(){
   let filtered = [...productsData];
 
   if(activeFilters.category){
-    // if products don't have category name, this will do nothing
     filtered = filtered.filter(p => (p.category || String(p.category_id || '')).toString().toLowerCase() === activeFilters.category.toLowerCase());
   }
   if(activeFilters.color){
@@ -330,37 +306,27 @@ function applyFilters(){
   renderProducts(filtered);
 }
 
-const searchBtn = document.querySelector(".search-btn");
-const searchContainer = document.querySelector(".search-container");
-
-searchBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  searchContainer.classList.toggle("active");
-});
-
-document.addEventListener('click', () => {
-  searchContainer.classList.remove('active');
-});
-
-searchContainer.addEventListener('click', (e) => {
-  e.stopPropagation();
-});
-
+// Reset filters
 const resetBtn = document.getElementById('resetFiltersBtn');
 resetBtn.addEventListener('click', () => {
   activeFilters = { category: null, color: null, size: null, price: null };
   renderProducts(productsData);
 });
 
-loadProducts();
-</script>
-<script>
+// Search UI toggle
+const searchBtn = document.querySelector(".search-btn");
+const searchContainer = document.querySelector(".search-container");
+searchBtn.addEventListener("click", (e) => { e.stopPropagation(); searchContainer.classList.toggle("active"); });
+document.addEventListener('click', () => searchContainer.classList.remove('active'));
+searchContainer.addEventListener('click', (e) => e.stopPropagation());
+
+// Menu toggle
 const menuToggle = document.querySelector('.menu-toggle');
 const navList = document.querySelector('.nav-list');
+menuToggle.addEventListener('click', () => navList.classList.toggle('show'));
 
-menuToggle.addEventListener('click', () => {
-    navList.classList.toggle('show');
-});
+// Initial load
+loadProducts();
 </script>
 
 </body>

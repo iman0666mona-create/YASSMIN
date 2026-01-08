@@ -147,9 +147,9 @@
 
 </footer>
 
-<script>
-const API_URL = 'http://localhost:5003/api/products';
-const UPLOADS_BASE = 'http://localhost:5003/uploads';
+<script>`${window.location.origin}/api/products`;'http://localhost:5003/api/products';
+const API_URL = `${window.location.origin}/api/products`;
+const UPLOADS_BASE = `${window.location.origin}/uploads`;
 
 function renderError(msg){
     const container = document.querySelector('.products-grid');
