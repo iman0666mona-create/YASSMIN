@@ -1,9 +1,14 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+const { Pool } = require('pg');
+require('dotenv').config();
+
+const isLocal = process.env.DATABASE_URL?.includes('localhost') || process.env.DATABASE_URL?.includes('127.0.0.1');
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ...(isLocal ? {} : { ssl: { rejectUnauthorized: false } })
 });
 
 // ======= اختبار الاتصال عند تشغيل السيرفر =======
