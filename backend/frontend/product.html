@@ -450,12 +450,31 @@ async function loadWilayas(){
   try {
     wilayaSelect.innerHTML = '<option value="">Loading...</option>';
     const res = await fetch(`${LOC_API}/api/wilayas`);
+
+    // show status for debugging
+    console.log('/api/wilayas status', res.status, res.statusText, 'content-type=', res.headers.get('content-type'));
+
+    // read as text first to inspect raw response
+    const raw = await res.text();
+
+    // if not OK, log and show friendly message
     if(!res.ok){
-      console.error('Failed to load wilayas', res.status);
+      console.error('Failed to load wilayas, status:', res.status, 'raw body:', raw);
       wilayaSelect.innerHTML = '<option value="">Unable to load</option>';
       return;
     }
-    const data = await res.json();
+
+    // ensure JSON
+    let data;
+    try {
+      data = raw ? JSON.parse(raw) : [];
+    } catch(parseErr){
+      console.error('Invalid JSON from /api/wilayas:', parseErr, 'raw:', raw);
+      // if server returned HTML or empty, avoid crashing — show message to user
+      wilayaSelect.innerHTML = '<option value="">Unable to parse wilayas</option>';
+      return;
+    }
+
     wilayaSelect.innerHTML = '<option value="">Select Wilaya</option>';
     if(Array.isArray(data)){
       data.forEach(w => {
@@ -464,6 +483,8 @@ async function loadWilayas(){
         opt.textContent = w.name || w.wilaya_name_ascii || w.name_ascii || String(w.id);
         wilayaSelect.appendChild(opt);
       });
+    } else {
+      console.warn('/api/wilayas returned non-array:', data);
     }
   } catch(err){
     console.error('Error loading wilayas:', err);
