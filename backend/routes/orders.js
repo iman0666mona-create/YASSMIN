@@ -2,18 +2,15 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// GET /orders - list all orders
+// GET /orders
 router.get('/', (req, res) => {
-  db.query('SELECT * FROM orders ORDER BY id DESC', [], (err, rows) => {
-    if (err) {
-      console.error('GET /orders error', err);
-      return res.status(500).json({ error: 'Server error' });
-    }
-    res.json(rows.rows || rows); // pg returns { rows: [...] }
+  db.query('SELECT * FROM orders ORDER BY id DESC', (err, rows) => {
+    if (err) return res.status(500).json({ error: 'Server error' });
+    res.json(rows || []);
   });
 });
 
-// POST /orders - create order
+// POST /orders
 router.post('/', (req, res) => {
   const {
     product_id, product_name, product_price,
@@ -24,7 +21,7 @@ router.post('/', (req, res) => {
 
   const q = `INSERT INTO orders
     (product_id, product_name, product_price, customer_name, customer_phone, wilaya, commune, address, size, color, created_at, status)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
     RETURNING id`;
 
   const params = [
@@ -35,21 +32,17 @@ router.post('/', (req, res) => {
     created_at ? new Date(created_at) : new Date(), status || 'pending'
   ];
 
- db.query(
-  `INSERT INTO products (name, price, description, category_id, media, colors, sizes)
-   VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
-  [name, price, description, category_id, media, colors, sizes],
-  (err, result) => {
+  db.query(q, params, (err, rows) => {
     if (err) {
-      console.log('ERROR POST PRODUCT:', err);
-      return res.status(500).json(err);
+      console.error('POST /orders error', err);
+      return res.status(500).json({ error: 'Server error' });
     }
-    res.json({ message: 'Product added', id: result[0]?.id });
-  }
-);
+    const id = rows && rows[0] ? rows[0].id : null;
+    res.json({ id, ...req.body });
+  });
 });
 
-// PATCH /orders/:id - partial update (e.g. status)
+// PATCH /orders/:id
 router.patch('/:id', (req, res) => {
   const id = req.params.id;
   const fields = req.body;
@@ -63,10 +56,7 @@ router.patch('/:id', (req, res) => {
   if (!updates.length) return res.status(400).json({ error: 'No fields' });
   params.push(id);
   db.query(`UPDATE orders SET ${updates.join(', ')} WHERE id = $${idx}`, params, (err) => {
-    if (err) {
-      console.error('PATCH /orders/:id error', err);
-      return res.status(500).json({ error: 'Server error' });
-    }
+    if (err) return res.status(500).json({ error: 'Server error' });
     res.json({ ok: true });
   });
 });
@@ -75,10 +65,7 @@ router.patch('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
   db.query('DELETE FROM orders WHERE id = $1', [id], (err) => {
-    if (err) {
-      console.error('DELETE /orders/:id error', err);
-      return res.status(500).json({ error: 'Server error' });
-    }
+    if (err) return res.status(500).json({ error: 'Server error' });
     res.json({ ok: true });
   });
 });

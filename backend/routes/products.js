@@ -74,14 +74,15 @@ router.post('/', upload, (req, res) => {
 
   db.query(
     `INSERT INTO products (name, price, description, category_id, media, colors, sizes)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+     VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
     [name, price, description, category_id, media, colors, sizes],
-    (err, result) => {
+    (err, rows) => {
       if (err) {
         console.log('ERROR POST PRODUCT:', err);
         return res.status(500).json(err);
       }
-      res.json({ message: 'Product added', id: result.insertId });
+      const id = rows && rows[0] ? rows[0].id : null;
+      res.json({ message: 'Product added', id });
     }
   );
 });
