@@ -32,42 +32,43 @@ app.use('/admin/products', require('./routes/products'));
 app.use('/api/products', require('./routes/productspub'));
 app.use('/orders', require('./routes/orders'));
 
-// ================== Optional: Wilayas/Communes API ==================
-// مفعلتهمش دلوقت، تقدري ترجعيهم إذا تحتاجي
-/*
-app.get('/api/wilayas', async (req, res) => {
-  try {
-    const rows = await db.query(
-      `SELECT DISTINCT wilaya_code AS id,
-              COALESCE(NULLIF(wilaya_name_ascii, ''), wilaya_name) AS name
-       FROM algeria_cities
-       ORDER BY name ASC`
-    );
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
-  }
+
+// ================== Wilayas / Communes API (enable before the wildcard route) ==================
+app.get('/api/wilayas', (req, res) => {
+  const q = `
+    SELECT DISTINCT wilaya_code AS id,
+           COALESCE(NULLIF(wilaya_name_ascii, ''), wilaya_name) AS name
+    FROM algeria_cities
+    ORDER BY name ASC
+  `;
+  const db = require('./db');
+  db.query(q, (err, rows) => {
+    if (err) {
+      console.error('GET /api/wilayas error', err);
+      return res.status(500).json({ error: 'Server error' });
+    }
+    res.json(rows || []);
+  });
 });
 
-app.get('/api/communes/:wilayaId', async (req, res) => {
+app.get('/api/communes/:wilayaId', (req, res) => {
   const wid = req.params.wilayaId;
-  try {
-    const rows = await db.query(
-      `SELECT id,
-              COALESCE(NULLIF(commune_name_ascii, ''), commune_name) AS name
-       FROM algeria_cities
-       WHERE wilaya_code = $1
-       ORDER BY name ASC`,
-      [wid]
-    );
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
-  }
+  const q = `
+    SELECT id,
+           COALESCE(NULLIF(commune_name_ascii, ''), commune_name) AS name
+    FROM algeria_cities
+    WHERE wilaya_code = $1
+    ORDER BY name ASC
+  `;
+  const db = require('./db');
+  db.query(q, [wid], (err, rows) => {
+    if (err) {
+      console.error('GET /api/communes error', err);
+      return res.status(500).json({ error: 'Server error' });
+    }
+    res.json(rows || []);
+  });
 });
-*/
 
 // ================== Default route → frontend ==================
 app.get('*', (req, res) => {
