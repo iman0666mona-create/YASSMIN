@@ -14,7 +14,6 @@
        <button id="viewOrdersBtn">Voir les commandes</button>
     </div>
 
-
     <table border="1" id="productsTable">
         <thead>
             <tr>
@@ -58,14 +57,22 @@
             <button type="submit">Enregistrer</button>
             <button type="button" id="cancelBtn">Annuler</button>
         </form>
-
-       
     </div>
 
-   
-
     <script>
-const API_URL = 'http://localhost:5003/admin/products';
+/*
+  Determine backend origin:
+  - Local dev -> http://localhost:5003
+  - Production -> same origin (window.location.origin) or override with window.__BACKEND_ORIGIN__
+*/
+const BACKEND_ORIGIN = window.__BACKEND_ORIGIN__ ||
+  (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+    ? 'http://localhost:5003'
+    : window.location.origin);
+
+const API_URL = `${BACKEND_ORIGIN}/admin/products`;
+const UPLOADS_BASE = `${BACKEND_ORIGIN}/uploads`;
+
 const tableBody = document.querySelector('#productsTable tbody');
 const formContainer = document.getElementById('productFormContainer');
 const form = document.getElementById('productForm');
@@ -78,9 +85,8 @@ const sizesContainer = document.getElementById('sizesContainer');
 
 // حماية الدخول
 if(localStorage.getItem('loggedIn') !== 'true'){
-    window.location.href = 'Login.html';
+    window.location.href = 'login.html';
 }
-
 
 function uniquePreserveOrder(arr){
     const seen = new Set();
@@ -110,7 +116,6 @@ async function loadColorsAndSizes() {
         colorsContainer.innerHTML = '';
         sizesContainer.innerHTML = '';
 
-        // استخراج الأسماء وإزالة التكرارات
         const uniqueColorNames = uniquePreserveOrder((colors || []).map(c => c.name));
         const uniqueSizeNames = uniquePreserveOrder((sizes || []).map(s => s.name));
 
@@ -143,7 +148,6 @@ async function loadColorsAndSizes() {
 
 loadColorsAndSizes();
 
-// ضبط checkboxes عند تعديل منتج (يدعم string JSON / CSV أو array) مع إزالة التكرارات
 function setCheckboxes(containerId, valuesStr) {
     let values = [];
     if (typeof valuesStr === 'string') {
@@ -163,60 +167,60 @@ function setCheckboxes(containerId, valuesStr) {
     });
 }
 
-
 async function loadProducts() {
     try {
         const res = await fetch(API_URL);
+        if(!res.ok) throw new Error('Failed to fetch products');
         const products = await res.json();
 
         tableBody.innerHTML = '';
 
+        products.forEach(p => {
+            let mediaArray = [];
+            try {
+                mediaArray = p.media ? JSON.parse(p.media) : [];
+            } catch(e) {
+                console.error("Invalid JSON for media:", p.media);
+                mediaArray = [];
+            }
 
-products.forEach(p => {
-    let mediaArray = [];
-    try {
-        mediaArray = p.media ? JSON.parse(p.media) : [];
-    } catch(e) {
-        console.error("Invalid JSON for media:", p.media);
-        mediaArray = [];
-    }
+            let colors = [];
+            try { colors = p.colors ? JSON.parse(p.colors) : []; } catch(e){ colors = []; }
+            let sizes = [];
+            try { sizes = p.sizes ? JSON.parse(p.sizes) : []; } catch(e){ sizes = []; }
 
-    let colors = [];
-    try { colors = p.colors ? JSON.parse(p.colors) : []; } catch(e){ colors = []; }
-    let sizes = [];
-    try { sizes = p.sizes ? JSON.parse(p.sizes) : []; } catch(e){ sizes = []; }
+            colors = uniquePreserveOrder(colors);
+            sizes = uniquePreserveOrder(sizes);
 
-    colors = uniquePreserveOrder(colors);
-    sizes = uniquePreserveOrder(sizes);
+            const mediaHTML = mediaArray.map(file => {
+                const ext = String(file).split('.').pop().toLowerCase();
+                const safeFile = encodeURIComponent(String(file));
+                if(['mp4','webm'].includes(ext)){
+                    return `<video width="50" controls>
+                                <source src="${UPLOADS_BASE}/${safeFile}" type="video/${ext}">
+                            </video>`;
+                } else {
+                    return `<img src="${UPLOADS_BASE}/${safeFile}" width="50">`;
+                }
+            }).join('');
 
-    const mediaHTML = mediaArray.map(file => {
-        const ext = file.split('.').pop().toLowerCase();
-        if(['mp4','webm'].includes(ext)){
-            return `<video width="50" controls>
-                        <source src="http://localhost:5003/uploads/${file}" type="video/${ext}">
-                    </video>`;
-        } else {
-            return `<img src="http://localhost:5003/uploads/${file}" width="50">`;
-        }
-    }).join('');
-
-    tableBody.innerHTML += `
-        <tr>
-            <td>${p.id}</td>
-            <td>${p.name}</td>
-            <td>${p.price}</td>
-            <td>${p.description}</td>
-            <td>${mediaHTML}</td>
-            <td>${p.category_id}</td>
-            <td>${colors.join(', ')}</td>
-            <td>${sizes.join(', ')}</td>
-            <td>
-                <button onclick="editProduct(${p.id})">Edit</button>
-                <button onclick="deleteProduct(${p.id})">Delete</button>
-            </td>
-        </tr>
-    `;
-});
+            tableBody.innerHTML += `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.name || ''}</td>
+                    <td>${p.price || ''}</td>
+                    <td>${p.description || ''}</td>
+                    <td>${mediaHTML}</td>
+                    <td>${p.category_id || ''}</td>
+                    <td>${colors.join(', ')}</td>
+                    <td>${sizes.join(', ')}</td>
+                    <td>
+                        <button onclick="editProduct(${p.id})">Edit</button>
+                        <button onclick="deleteProduct(${p.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
 
     } catch(err) {
         console.error("Error loading products:", err);
@@ -252,7 +256,6 @@ form.onsubmit = async (e) => {
     const selectedSizes = Array.from(document.querySelectorAll('input[name="sizes"]:checked'))
                            .map(cb => cb.value);
 
-    // إزالة التكرارات قبل الإرسال
     formData.append('colors', JSON.stringify(uniquePreserveOrder(selectedColors)));
     formData.append('sizes', JSON.stringify(uniquePreserveOrder(selectedSizes)));
 
@@ -279,12 +282,13 @@ form.onsubmit = async (e) => {
 async function editProduct(id){
     try {
         const res = await fetch(`${API_URL}/${id}`);
+        if(!res.ok) throw new Error('Failed to fetch product');
         const p = await res.json();
         formTitle.textContent = 'Modifier Produit';
         productIdInput.value = p.id;
-        document.getElementById('name').value = p.name;
-        document.getElementById('price').value = p.price;
-        document.getElementById('description').value = p.description;
+        document.getElementById('name').value = p.name || '';
+        document.getElementById('price').value = p.price || '';
+        document.getElementById('description').value = p.description || '';
         document.getElementById('category_id').value = p.category_id || '';
         setCheckboxes('colorsContainer', p.colors);
         setCheckboxes('sizesContainer', p.sizes);
@@ -308,32 +312,11 @@ async function deleteProduct(id){
     }
 }
 
-// initial load
-
-
-
-
-
-
-
 document.getElementById('viewOrdersBtn')?.addEventListener('click', () => {
-
   window.location.href = 'orders.html';
 });
 
-
-
-
 loadProducts();
-
-
-</script>
-
-
-
-
-
-</script>
-
+    </script>
 </body>
 </html>
