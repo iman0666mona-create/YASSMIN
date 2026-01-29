@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = require('./db');
 
 // ================== Routes (API first) ==================
-app.use('/admin/products', require('./routes/products'));
+app.use('/m9ll2/products', require('./routes/products'));
 app.use('/api/products', require('./routes/productspub'));
 app.use('/orders', require('./routes/orders'));
 
@@ -71,7 +71,7 @@ app.get('/api/communes/:wilayaId', (req, res) => {
 // ================== Static folders (after API) ==================
 
 // Serve admin static files from backend/admin
-app.use('/admin', express.static(path.join(__dirname, 'admin')));
+app.use('/m9ll2', express.static(path.join(__dirname, 'm9ll2')));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'frontend')));
