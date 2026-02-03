@@ -1660,5 +1660,5 @@ ON CONFLICT DO NOTHING;
 
 
 
-select*FROM wilayas;
+
 
